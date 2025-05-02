@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight, FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
 export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
