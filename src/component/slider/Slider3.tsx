@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { turbo } from "@/json";
-import Image from "next/image";
 
 const images = [
   "https://s3.us-west-1.amazonaws.com/thisisatestspacefor.design/images/N30GT/exterior.jpg?...",
@@ -11,7 +10,7 @@ const images = [
   "https://images.unsplash.com/photo-1493246507139-91e8fad9978e",
 ];
 
-export default function CircularSlider() {
+export default function Slider3() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const value = turbo[currentIndex];
@@ -57,9 +56,9 @@ export default function CircularSlider() {
   };
 
   return (
-    <div className="relative flex flex-col   w-screen h-screen  overflow-hidden">
+    <div className="relative flex  lg:items-center w-screen  h-screen overflow-hidden">
       {/* Values Container */}
-      <div className="pointer-events-none w-full  text-black flex justify-center">
+      <div className="pointer-events-none lg:mt-0 mt-16 w-full h-[100vw] md:h-[40vw] lg:h-[35vw] text-black flex justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -124,16 +123,16 @@ export default function CircularSlider() {
       </div>
 
       {/* Image Slider - On Click Navigation */}
-      <div className="w-full relative h-full flex items-end justify-center">
+      <div className="absolute bottom-0 w-full h-full flex items-end justify-center">
         <AnimatePresence initial={false}>
           {getVisibleIndices().map((index, position) => {
             const isCenter = position === 1;
             const xPosition =
               position === 0 ? "-40vw" : position === 2 ? "40vw" : 0;
-            const defaultScale = isCenter ? 1.8 : 0.6;
+            const scale = isCenter ? 1.8 : 0.6;
             const zIndex = isCenter ? 10 : 5;
             const opacity = isCenter ? 1 : 0.6;
-            const yPosition = isCenter ? "-8vw" : "5vw";
+            const yPosition = isCenter ? "-10vw" : "5vw";
 
             return (
               <motion.img
@@ -154,11 +153,10 @@ export default function CircularSlider() {
                   y: yPosition,
                   x: xPosition,
                   opacity,
-                  scale: defaultScale,
+                  scale,
                 }}
-                whileHover={!isCenter ? { scale: 0.7 } : undefined}
                 exit={{ y: "100vh", opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
                 onClick={() => handleClick(position)}
               />
             );

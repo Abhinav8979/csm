@@ -1,6 +1,11 @@
-import Slider2 from "@/component/slider/Slider2";
+import MobileNav from "@/component/MobileNav";
 
 export default function Home() {
-  // return <Slider />;
-  return <Slider2 />;
+  return (
+    <div className="h-screen w-screen">
+      <div className="absolute left-2 top-3">
+        <MobileNav />
+      </div>
+    </div>
+  );
 }
