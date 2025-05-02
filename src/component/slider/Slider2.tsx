@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { turbo } from "@/json";
-import { PanInfo } from "framer-motion";
+import Image from "next/image";
 
 const images = [
   "https://s3.us-west-1.amazonaws.com/thisisatestspacefor.design/images/N30GT/exterior.jpg?...",
@@ -11,27 +11,13 @@ const images = [
   "https://images.unsplash.com/photo-1493246507139-91e8fad9978e",
 ];
 
-export default function CircularSlider() {
+export default function Slider2() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const value = turbo[currentIndex];
 
-  const handleDragEnd = (
-    event: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
-  ) => {
-    const threshold = 100;
-    if (info.offset.x < -threshold) {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    } else if (info.offset.x > threshold) {
-      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-    }
-  };
-
-  const getVisibleIndices = () => {
-    const prev = (currentIndex - 1 + images.length) % images.length;
-    const next = (currentIndex + 1) % images.length;
-    return [prev, currentIndex, next];
+  const handlePlaneClick = (index: number) => {
+    setCurrentIndex(index);
   };
 
   const getDynamicWidth = (text: string) => {
@@ -58,30 +44,10 @@ export default function CircularSlider() {
     },
   };
 
-  // const circleGradients = [
-  //   "bg-gradient-to-br from-black/20 to-gray-500/10",
-  //   "bg-gradient-to-br from-blue-900/20 to-cyan-500/10",
-  //   "bg-gradient-to-br from-purple-900/20 to-pink-500/10",
-  //   "bg-gradient-to-br from-red-900/20 to-orange-500/10",
-  //   "bg-gradient-to-br from-green-900/20 to-teal-500/10",
-  // ];
-
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
-      {/* Background Circle */}
-      {/* <div
-        className={`w-[80vw] md:w-[60vw] lg:w-[50vw] transition-colors duration-200 ease-in-out pointer-events-none aspect-square scale-[1.5] md:scale-[1.8] lg:scale-[2] rounded-full ${circleColors[currentIndex]} absolute -bottom-[80%] md:-bottom-[90%] lg:-bottom-[110%] left-1/2 -translate-x-1/2`}
-      ></div> */}
-      {/* <div
-        style={{
-          width:
-            windowSize <= 320 ? "80vw" : windowSize <= 768 ? "70vw" : "50vw",
-        }}
-        className={`lg:w-[50vw] transition-colors duration-300 ease-in-out pointer-events-none aspect-square scale-[1.5] md:scale-[1.8] lg:scale-[2] rounded-full ${circleGradients[currentIndex]} absolute -bottom-[35%] md:-bottom-[90%] lg:-bottom-[110%] left-1/2 -translate-x-1/2`}
-      ></div> */}
-
+    <div className="relative flex  lg:items-center w-screen  h-screen overflow-hidden">
       {/* Values Container */}
-      <div className="absolute pointer-events-none w-full h-[100vw] md:h-[40vw] lg:h-[35vw] text-black top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex justify-center">
+      <div className="pointer-events-none lg:mt-0 mt-16 w-full h-[100vw] md:h-[40vw] lg:h-[35vw] text-black flex justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -145,56 +111,50 @@ export default function CircularSlider() {
         </AnimatePresence>
       </div>
 
-      {/* Image Slider */}
-      <motion.div
-        className="absolute bottom-0 w-full h-full flex items-end justify-center hover:cursor-grab"
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.2}
-        onDragEnd={handleDragEnd}
-      >
-        <AnimatePresence initial={false}>
-          {getVisibleIndices().map((index, position) => {
-            const isCenter = position === 1;
-            const xPosition =
-              position === 0 ? "-40vw" : position === 2 ? "40vw" : 0;
-            const scale = isCenter ? 1.8 : 0.6;
-            const zIndex = isCenter ? 10 : 5;
-            const opacity = isCenter ? 1 : 0.6;
-            const yPosition = isCenter ? "-10vw" : "5vw";
+      {/* Plane Slider */}
+      <div className="absolute  flex items-center justify-center w-full h-full gap-4 md:gap-6 lg:gap-8">
+        <AnimatePresence>
+          {images.map((src, index) => {
+            const GAP = 21; // adjust as needed
+            const midIndex = Math.floor(images.length / 2); // middle index of the planes
 
             return (
-              <motion.img
-                key={images[index]}
-                src={"/remove.png"}
-                alt={`Slide ${index + 1}`}
-                className="absolute w-[25vw] md:w-[20vw] lg:w-[17vw] h-[40vw] md:h-[25vw] lg:h-[23vw] object-contain pointer-events-none"
-                style={{ zIndex }}
+              <motion.div
+                className={`absolute -translate-x-1/2 translate-y-[60%] md:translate-y-1/2`}
+                key={index}
                 initial={{
-                  y: "100vh",
-                  opacity: 0,
-                  scale: 0.8,
-                  x: xPosition,
+                  opacity: 0.6, // Start with lower opacity for non-selected planes
+                  width: "10vw", // initial width for non-selected planes
+                  left: `${50 + (index - midIndex) * GAP}%`, // Spread the planes from the center
+                  bottom: "25%", // Adjust the starting vertical position
                 }}
                 animate={{
-                  y: yPosition,
-                  x: xPosition,
-                  opacity,
-                  scale,
+                  opacity: index === currentIndex ? 1 : 0.6, // Highlight the selected plane
+                  width: index === currentIndex ? "500px" : "10vh", // Enlarge selected plane
+                  left:
+                    index === currentIndex
+                      ? "50%"
+                      : `${50 + (index - midIndex) * GAP}%`, // Center the selected plane
+                  bottom: index === currentIndex ? "45%" : "10%", // Adjust vertical position for non-selected planes
                 }}
-                exit={{ y: "100vh", opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
-              />
+                transition={{
+                  duration: 0.7,
+                  ease: "easeInOut",
+                }}
+                onClick={() => handlePlaneClick(index)}
+              >
+                <Image
+                  width={3900}
+                  height={3900}
+                  src={"/remove.png"}
+                  alt={`Plane ${index + 1}`}
+                  className="h-[30vw] md:h-[18vw] lg:h-[20vw] translate-y-2 md:translate-y-0 object-contain cursor-pointer"
+                  style={{ zIndex: index === currentIndex ? 10 : 5 }} // Ensure selected plane has higher zIndex
+                />
+              </motion.div>
             );
           })}
         </AnimatePresence>
-      </motion.div>
-
-      {/* Request Quote Button */}
-      <div className="z-50 absolute bottom-[4vw] md:bottom-[5vw] lg:bottom-[4vw] rounded-lg left-1/2 -translate-x-1/2">
-        <button className="text-xs md:text-base px-4 py-2 md:scale-100 scale-95 bg-violet-950 text-white rounded hover:bg-violet-800">
-          Request Quote
-        </button>
       </div>
     </div>
   );
