@@ -58,7 +58,7 @@ export default function Slider3() {
   return (
     <div className="relative flex  lg:items-center w-screen  h-screen overflow-hidden">
       {/* Values Container */}
-      <div className="pointer-events-none lg:mt-0 mt-16 w-full h-[100vw] md:h-[40vw] lg:h-[35vw] text-black flex justify-center">
+      <div className="pointer-events-none lg:mt-0 mt-6 w-full h-[100vw] md:h-[40vw]  text-black flex justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -132,7 +132,7 @@ export default function Slider3() {
             const scale = isCenter ? 1.8 : 0.6;
             const zIndex = isCenter ? 10 : 5;
             const opacity = isCenter ? 1 : 0.6;
-            const yPosition = isCenter ? "-10vw" : "5vw";
+            const yPosition = isCenter ? "-8vw" : "5vw";
 
             return (
               <motion.img

@@ -19,28 +19,28 @@ export default function HamburgerMenu() {
 
   const menuItems = [
     {
-      label: "Home",
-      href: "/home",
+      label: "Charter",
+      //   href: "/home",
       subLinks: [
-        { label: "Overview", href: "/home/overview" },
-        { label: "Updates", href: "/home/updates" },
+        { label: "FLEET", href: "/charter/fleet" },
+        { label: "CHARTER DESTINATIONS", href: "/destinations" },
       ],
     },
     {
-      label: "About",
-      href: "/about",
+      label: "MANAGEMENT",
+      href: "/management",
     },
     {
-      label: "Services",
-      href: "/services",
+      label: "COMPANY",
+      //   href: "/services",
       subLinks: [
-        { label: "Web Development", href: "/services/web" },
-        { label: "Mobile Development", href: "/services/mobile" },
+        { label: "ABOUT US", href: "/company/about" },
+        { label: "CONTACT", href: "/company/contact" },
       ],
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "MAINTENANCE",
+      href: "/maintenance",
     },
     {
       label: "Contact",
