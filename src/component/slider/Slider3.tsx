@@ -124,7 +124,7 @@ export default function Slider3() {
             const isCenter = position === 1;
             const xPosition =
               position === 0 ? "-40vw" : position === 2 ? "40vw" : 0;
-            const scale = isCenter ? 1.8 : 0.6;
+            const scale = isCenter ? 2 : 0.7;
             const zIndex = isCenter ? 10 : 5;
             const opacity = isCenter ? 1 : 0.6;
             const yPosition = isCenter ? "-9vw" : "5vw";
@@ -164,7 +164,7 @@ export default function Slider3() {
 
       {/* Request Quote Button */}
       <div className="z-50 absolute flex gap-2 bottom-[4vw] md:bottom-[5vw] lg:bottom-[4vw] rounded-lg left-1/2 -translate-x-1/2">
-        <button className="text-xs md:text-base px-4 py-2 md:scale-100 scale-95 bg-[#23B2EE] text-white rounded hover:bg-blue-800">
+        <button className="text-sm md:text-base px-4 py-2 md:scale-100 scale-95 bg-[#23B2EE] text-white rounded hover:bg-blue-800">
           Request Quote
         </button>
         {/* <button className="text-xs md:text-base px-4 py-2 md:scale-100 scale-95 bg-[#23B2EE] text-white rounded hover:bg-blue-800">
