@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { turbo } from "@/json";
 
-const images = ["remove.png", "remove2.png", "remove3.png"];
+const images = ["remove.png", "remove2.png", "remove3.png","remove4.png"];
 
 export default function Slider3() {
   const [currentIndex, setCurrentIndex] = useState(0);
