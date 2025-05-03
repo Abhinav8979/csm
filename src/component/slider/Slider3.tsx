@@ -111,7 +111,15 @@ export default function Slider3() {
             exit="exit"
           >
             <div className="flex items-center justify-center gap-4 md:gap-6 lg:gap-10 flex-wrap px-4">
-              {["seats", "altitude", "range", "category", "yom"].map((key) => (
+              {(
+                [
+                  "seats",
+                  "altitude",
+                  "range",
+                  "category",
+                  "yom",
+                ] as (keyof AircraftData)[]
+              ).map((key) => (
                 <div
                   key={key}
                   className="bg-gray-100 text-center py-2 md:py-3 rounded-lg"
@@ -120,14 +128,14 @@ export default function Slider3() {
                   <h1 className="text-sm md:text-base">
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </h1>
-                  <p className="text-[#23B2EE] px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
-                    {key}
+                  <p className="text-[#23B2EE] px-2 md:px-3 font-semibold uppercase text-[11px] md:text-sm">
+                    {aircraft[key]}
                   </p>
                 </div>
               ))}
             </div>
 
-            <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold whitespace-nowrap text-[#23B2EE] text-center">
+            <h1 className="text-[10vw] md:text-[10vw] lg:text-[8vw] font-bold whitespace-nowrap text-[#23B2EE] text-center">
               {aircraft?.aircraftName}
             </h1>
           </motion.div>
