@@ -79,7 +79,7 @@ export default function Slider3() {
       <>
         <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
           <div
-            className={`cursor-pointer p-3 border-y  border-r  border-l  rounded-l-lg px-11 transition-all ${
+            className={`cursor-pointer py-2 border-y  md:text-base text-sm border-r  border-l  rounded-l-lg px-5 md:px-11 transition-all ${
               category === "Light"
                 ? "bg-blue-50 border-[#23B2EE] border-r text-black"
                 : "bg-white text-black border-r-transparent"
@@ -89,7 +89,7 @@ export default function Slider3() {
             <h1>Light</h1>
           </div>
           <div
-            className={`cursor-pointer p-3 px-11 border-y border-r rounded-r-lg  border-l  transition-all ${
+            className={`cursor-pointer py-2 md:text-base text-sm px-5 md:px-11 border-y border-r rounded-r-lg  border-l  transition-all ${
               category === "Turbo"
                 ? "bg-blue-50 border-[#23B2EE]  border-l-[#23B2EE] text-black"
                 : "bg-white text-black border-l-transparent "
