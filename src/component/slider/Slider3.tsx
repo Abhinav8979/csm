@@ -3,12 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { turbo } from "@/json";
 
-const images = [
-  "https://s3.us-west-1.amazonaws.com/thisisatestspacefor.design/images/N30GT/exterior.jpg?...",
-  "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9",
-  "https://images.unsplash.com/photo-1472214103451-9374bd1c798e",
-  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e",
-];
+const images = ["remove.png", "remove2.png", "remove3.png"];
 
 export default function Slider3() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -56,9 +51,9 @@ export default function Slider3() {
   };
 
   return (
-    <div className="relative flex  lg:items-center w-screen  h-screen overflow-hidden">
+    <div className="relative flex  lg:items-center w-screen h-[85vh]  md:h-screen overflow-hidden">
       {/* Values Container */}
-      <div className="pointer-events-none lg:mt-0 mt-6 w-full h-[100vw] md:h-[40vw]  text-black flex justify-center">
+      <div className="pointer-events-none lg:mt-0 mt-8 w-full h-[100vw] md:h-[40vw]  text-black flex justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -73,7 +68,7 @@ export default function Slider3() {
                 style={{ width: getDynamicWidth(value?.seats) }}
               >
                 <h1 className="text-sm md:text-base">Seats</h1>
-                <p className="text-violet-950 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
+                <p className="text-blue-800 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
                   {value?.seats}
                 </p>
               </div>
@@ -82,7 +77,7 @@ export default function Slider3() {
                 style={{ width: getDynamicWidth(value?.altitude) }}
               >
                 <h1 className="text-sm md:text-base">Altitude</h1>
-                <p className="text-violet-950 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
+                <p className="text-blue-800 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
                   {value?.altitude}
                 </p>
               </div>
@@ -91,7 +86,7 @@ export default function Slider3() {
                 style={{ width: getDynamicWidth(value?.range) }}
               >
                 <h1 className="text-sm md:text-base">Range</h1>
-                <p className="text-violet-950 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
+                <p className="text-blue-800 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
                   {value?.range}
                 </p>
               </div>
@@ -100,7 +95,7 @@ export default function Slider3() {
                 style={{ width: getDynamicWidth(value?.category) }}
               >
                 <h1 className="text-sm md:text-base">Category</h1>
-                <p className="text-violet-950 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
+                <p className="text-blue-800 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
                   {value?.category}
                 </p>
               </div>
@@ -109,13 +104,13 @@ export default function Slider3() {
                 style={{ width: getDynamicWidth(value?.yom) }}
               >
                 <h1 className="text-sm md:text-base">Year</h1>
-                <p className="text-violet-950 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
+                <p className="text-blue-800 px-2 md:px-3 font-semibold uppercase text-xs md:text-sm">
                   {value?.yom}
                 </p>
               </div>
             </div>
 
-            <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold whitespace-nowrap text-violet-950 text-center mt-4">
+            <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold whitespace-nowrap text-blue-800 text-center mt-4">
               {value?.aircraftName}
             </h1>
           </motion.div>
@@ -132,12 +127,13 @@ export default function Slider3() {
             const scale = isCenter ? 1.8 : 0.6;
             const zIndex = isCenter ? 10 : 5;
             const opacity = isCenter ? 1 : 0.6;
-            const yPosition = isCenter ? "-8vw" : "5vw";
+            const yPosition = isCenter ? "-9vw" : "5vw";
 
             return (
               <motion.img
-                key={images[index]}
-                src={"remove.png"}
+                key={index}
+                // src={"remove.png"}
+                src={images[index]}
                 alt={`Slide ${index + 1}`}
                 className={`absolute w-[25vw] md:w-[20vw] lg:w-[17vw] h-[40vw] md:h-[25vw] lg:h-[23vw] object-contain ${
                   isCenter ? "pointer-events-none" : "cursor-pointer"
@@ -166,7 +162,7 @@ export default function Slider3() {
 
       {/* Request Quote Button */}
       <div className="z-50 absolute bottom-[4vw] md:bottom-[5vw] lg:bottom-[4vw] rounded-lg left-1/2 -translate-x-1/2">
-        <button className="text-xs md:text-base px-4 py-2 md:scale-100 scale-95 bg-violet-950 text-white rounded hover:bg-violet-800">
+        <button className="text-xs md:text-base px-4 py-2 md:scale-100 scale-95 bg-blue-700 text-white rounded hover:bg-blue-800">
           Request Quote
         </button>
       </div>
