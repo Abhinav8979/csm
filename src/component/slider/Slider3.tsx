@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { lightMidsizeAircraft, turbo } from "@/json";
 
@@ -22,12 +22,8 @@ type AircraftData = {
 export default function Slider3() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [category, setCategory] = useState<"Light" | "Turbo">("Light");
-  const [value, setValue] = useState<AircraftData | string>("Turbo");
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value as "Light" | "Turbo");
-    console.log("Selected Category:", e.target.value);
-  };
+  const [value, setValue] = useState<AircraftData | string>("Turbo");
 
   const getVisibleIndices = (): number[] => {
     const prev = (currentIndex - 1 + images.length) % images.length;
@@ -81,18 +77,28 @@ export default function Slider3() {
   return (
     <div className="relative flex flex-col  items-center w-screen h-[85vh] md:h-screen overflow-hidden">
       <>
-        <select
-          value={category}
-          onChange={handleChange}
-          className="text-sm mt-3  md:my-6 md:text-base cursor-pointer z-20 px-4 py-2 md:scale-100 scale-95 bg-[#23B2EE] text-white rounded focus:outline-none"
-        >
-          <option className="bg-white text-black" value="Light">
-            Light
-          </option>
-          <option className="bg-white text-black" value="Turbo">
-            Turbo
-          </option>
-        </select>
+        <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
+          <div
+            className={`cursor-pointer p-3 border-y  border-r  border-l  rounded-l-lg px-11 transition-all ${
+              category === "Light"
+                ? "bg-blue-50 border-[#23B2EE] border-r text-black"
+                : "bg-white text-black border-r-transparent"
+            }`}
+            onClick={() => setCategory("Light")}
+          >
+            <h1>Light</h1>
+          </div>
+          <div
+            className={`cursor-pointer p-3 px-11 border-y border-r rounded-r-lg  border-l  transition-all ${
+              category === "Turbo"
+                ? "bg-blue-50 border-[#23B2EE]  border-l-[#23B2EE] text-black"
+                : "bg-white text-black border-l-transparent "
+            }`}
+            onClick={() => setCategory("Turbo")}
+          >
+            <h1>Turbo</h1>
+          </div>
+        </div>
       </>
 
       <div className="pointer-events-none lg:-mt-1 mt-6 w-full h-[100vw] md:h-[40vw] text-black flex justify-center">
@@ -121,7 +127,7 @@ export default function Slider3() {
               ))}
             </div>
 
-            <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold whitespace-nowrap text-[#23B2EE] text-center mt-4">
+            <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold whitespace-nowrap text-[#23B2EE] text-center">
               {aircraft?.aircraftName}
             </h1>
           </motion.div>
