@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import Plane from "../../../public/assets/videos/plane.jpg";
+import Plane from "../../../public/plane.jpg";
 import {
   animate,
   motion,
@@ -120,7 +120,6 @@ export default function AnimatedCard({
         <div className="relative w-full h-full">
           {/* Cloud */}
           <motion.div
-            // id="cloud-clip-path"
             style={{
               x: cloudX,
               position: "absolute",
