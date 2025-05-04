@@ -86,7 +86,7 @@ const Service = () => {
                   ? "-50vh"
                   : "-20vh",
             }}
-            className="w-full h-[250vh]"
+            className="w-full h-[250vh] will-change-scroll"
           >
             <AnimatedCard direction={index % 2 === 0 ? "1" : "-1"}>
               <>
