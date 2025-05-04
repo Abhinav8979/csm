@@ -17,25 +17,43 @@ export default function AnimatedCard({
   direction: "1" | "-1";
   children: ReactNode;
 }) {
-  const [windowWidth, setWindowWidth] = useState(1200);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: [`start start`, "end end"],
+    offset: ["start end", "end center"],
   });
 
-  const planeWidth = 420;
-  const gap = 30;
-
   const cloudX = useMotionValue(0);
+  const [windowWidth, setWindowWidth] = useState(1200);
 
-  const cloudWidth = windowWidth < 768 ? 260 : windowWidth < 1024 ? 400 : 480;
+  const updateWindowWidth = () => setWindowWidth(window.innerWidth);
+
+  useEffect(() => {
+    updateWindowWidth();
+    window.addEventListener("resize", updateWindowWidth);
+    return () => window.removeEventListener("resize", updateWindowWidth);
+  }, []);
+
+  const planeWidth = 400;
+  const cloudWidth =
+    windowWidth < 768
+      ? 260
+      : windowWidth < 1024
+      ? 400
+      : windowWidth < 1640
+      ? 500
+      : windowWidth < 2440
+      ? 700
+      : 1050;
+  const gap = windowWidth < 768 ? 40 : windowWidth < 1024 ? 70 : 90;
 
   const planeX = useTransform(
     scrollYProgress,
     [0, 1],
     [
-      direction === "1" ? -planeWidth : windowWidth + planeWidth,
+      direction === "1"
+        ? -planeWidth - windowWidth - 100
+        : windowWidth + planeWidth,
       direction === "1" ? windowWidth + planeWidth : -planeWidth,
     ]
   );
@@ -43,7 +61,7 @@ export default function AnimatedCard({
   useEffect(() => {
     const stopTriggerPosition =
       direction === "-1"
-        ? windowWidth / 2 - planeWidth / 2
+        ? windowWidth / 2 - planeWidth * 2
         : windowWidth / 2 + planeWidth / 2;
 
     const cloudStopPosition = windowWidth / 2 - cloudWidth / 2;
@@ -51,45 +69,22 @@ export default function AnimatedCard({
     let currentAnimation: ReturnType<typeof animate> | null = null;
 
     const unsubscribe = planeX.on("change", (latestPlaneX) => {
-      let followX;
+      const followX =
+        direction === "-1"
+          ? latestPlaneX + cloudWidth + gap
+          : latestPlaneX - cloudWidth - gap;
 
-      if (direction === "-1") {
-        followX = latestPlaneX + planeWidth + gap;
+      const shouldStop =
+        direction === "-1"
+          ? latestPlaneX <= stopTriggerPosition
+          : latestPlaneX >= stopTriggerPosition;
 
-        if (windowWidth < 768) {
-          if (followX <= 0) {
-            if (currentAnimation) currentAnimation.stop();
-          } else {
-            if (currentAnimation) currentAnimation.stop();
-            cloudX.set(followX);
-          }
-        } else if (windowWidth >= 768 && windowWidth <= 1024) {
-          if (followX <= 270) {
-            if (currentAnimation) currentAnimation.stop();
-          } else {
-            if (currentAnimation) currentAnimation.stop();
-            cloudX.set(followX);
-          }
-        } else {
-          if (followX <= 500) {
-            if (currentAnimation) currentAnimation.stop();
-          } else {
-            if (currentAnimation) currentAnimation.stop();
-            cloudX.set(followX);
-          }
-        }
+      if (shouldStop) {
+        if (currentAnimation) currentAnimation.stop();
+        currentAnimation = animate(cloudX, cloudStopPosition);
       } else {
-        followX = latestPlaneX - cloudWidth - gap;
-
-        if (latestPlaneX < stopTriggerPosition) {
-          if (currentAnimation) currentAnimation.stop();
-          cloudX.set(followX);
-        } else {
-          if (currentAnimation) currentAnimation.stop();
-          currentAnimation = animate(cloudX, cloudStopPosition, {
-            duration: 0.4,
-          });
-        }
+        if (currentAnimation) currentAnimation.stop();
+        cloudX.set(followX);
       }
     });
 
@@ -100,18 +95,9 @@ export default function AnimatedCard({
   }, [planeX, windowWidth, cloudWidth, planeWidth, gap, cloudX, direction]);
 
   useEffect(() => {
-    const updateWindowWidth = () => {
-      const width = window.innerWidth;
-      setWindowWidth(width);
-
-      const initialPlaneX = -planeWidth;
-      const initialCloudX = initialPlaneX - cloudWidth - gap;
-      cloudX.set(initialCloudX);
-    };
-
-    updateWindowWidth();
-    window.addEventListener("resize", updateWindowWidth);
-    return () => window.removeEventListener("resize", updateWindowWidth);
+    const initialPlaneX = -planeWidth;
+    const initialCloudX = initialPlaneX - cloudWidth - gap;
+    cloudX.set(initialCloudX);
   }, [cloudX, cloudWidth, planeWidth, gap]);
 
   return (
@@ -137,7 +123,7 @@ export default function AnimatedCard({
           <motion.div
             initial={{ rotate: direction === "1" ? 0 : 180 }}
             style={{ x: planeX }}
-            className="absolute top-1/2 -translate-y-1/2 w-auto flex gap-10"
+            className="absolute top-[45%] -translate-y-1/2 w-auto flex gap-10"
           >
             <Image
               src={Plane}
@@ -147,8 +133,11 @@ export default function AnimatedCard({
                   ? "w-[180px]"
                   : windowWidth < 1024
                   ? "w-[300px]"
-                  : "w-[400px]"
+                  : windowWidth <= 1640
+                  ? "w-[400px]"
+                  : "w-[800px]"
               } h-auto`}
+              priority
             />
           </motion.div>
         </div>
