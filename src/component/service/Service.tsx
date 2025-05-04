@@ -55,6 +55,9 @@ const Service = () => {
   }, []);
   return (
     <>
+      <div className="h-[100vh] text-white w-full bg-black flex items-center justify-center">
+        Scroll Down
+      </div>
       {services.map((ele, index) => {
         const scale = index === 0 ? "1.3" : index === 1 ? "2.2" : "1.7";
         const translate =
@@ -78,6 +81,8 @@ const Service = () => {
                     ? "0px"
                     : "-20vh"
                   : index === 1
+                  ? "-50vh"
+                  : isMobile
                   ? "-50vh"
                   : "-20vh",
             }}

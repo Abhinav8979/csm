@@ -52,7 +52,9 @@ export default function AnimatedCard({
     [0, 1],
     [
       direction === "1"
-        ? -planeWidth - windowWidth - 100
+        ? -planeWidth
+        : windowWidth <= 768
+        ? planeWidth
         : windowWidth + planeWidth,
       direction === "1" ? windowWidth + planeWidth : -planeWidth,
     ]
@@ -123,7 +125,7 @@ export default function AnimatedCard({
           <motion.div
             initial={{ rotate: direction === "1" ? 0 : 180 }}
             style={{ x: planeX }}
-            className="absolute top-[45%] -translate-y-1/2 w-auto flex gap-10"
+            className="absolute md:top-[45%] top-1/2 -translate-y-1/2 w-auto flex gap-10"
           >
             <Image
               src={Plane}
