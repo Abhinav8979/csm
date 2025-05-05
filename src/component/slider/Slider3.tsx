@@ -21,8 +21,10 @@ type AircraftData = {
 
 export default function Slider3() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [category, setCategory] = useState<"Light" | "Turbo">("Light");
-  const [value, setValue] = useState<AircraftData | string>("Turbo");
+  const [category, setCategory] = useState<
+    "LIGHT | MIDSIZE JETS" | "TURBOPROPS"
+  >("LIGHT | MIDSIZE JETS");
+  const [value, setValue] = useState<AircraftData | string>("TURBOPROPS");
 
   const getVisibleIndices = (): number[] => {
     const prev = (currentIndex - 1 + images.length) % images.length;
@@ -40,10 +42,14 @@ export default function Slider3() {
 
   const getDynamicWidth = (text?: string): string => {
     if (!text) return "80px";
+
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+
     const baseWidth = 80;
-    const charWidth = 10;
-    const minWidth = 80;
-    const maxWidth = 200;
+    const charWidth = isMobile ? 6 : 10;
+    const minWidth = 60;
+    const maxWidth = isMobile ? 130 : 200;
+
     const calculatedWidth = baseWidth + text.length * charWidth;
     return `${Math.min(Math.max(calculatedWidth, minWidth), maxWidth)}px`;
   };
@@ -63,7 +69,7 @@ export default function Slider3() {
   };
 
   useEffect(() => {
-    if (category === "Turbo") {
+    if (category === "TURBOPROPS") {
       setValue(turbo[currentIndex]);
     } else {
       setValue(lightMidsizeAircraft[currentIndex]);
@@ -77,22 +83,22 @@ export default function Slider3() {
       {/* Category Toggle Buttons */}
       <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
         <div
-          className={`cursor-pointer py-2 border-y border-r border-l rounded-l-lg px-5 md:px-11 transition-all ${
-            category === "Light"
+          className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-r border-l rounded-l-lg transition-all ${
+            category === "LIGHT | MIDSIZE JETS"
               ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
               : "bg-[#1e293b] text-gray-300 border-transparent"
           }`}
-          onClick={() => setCategory("Light")}
+          onClick={() => setCategory("LIGHT | MIDSIZE JETS")}
         >
           <h1>Light</h1>
         </div>
         <div
-          className={`cursor-pointer py-2 px-5 md:px-11 border-y border-l border-r rounded-r-lg transition-all ${
-            category === "Turbo"
+          className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-l border-r rounded-r-lg transition-all ${
+            category === "TURBOPROPS"
               ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
               : "bg-[#1e293b] text-gray-300 border-transparent"
           }`}
-          onClick={() => setCategory("Turbo")}
+          onClick={() => setCategory("TURBOPROPS")}
         >
           <h1>Turbo</h1>
         </div>
