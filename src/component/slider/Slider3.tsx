@@ -22,7 +22,6 @@ type AircraftData = {
 export default function Slider3() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [category, setCategory] = useState<"Light" | "Turbo">("Light");
-
   const [value, setValue] = useState<AircraftData | string>("Turbo");
 
   const getVisibleIndices = (): number[] => {
@@ -71,37 +70,36 @@ export default function Slider3() {
     }
   }, [category, currentIndex]);
 
-  // Ensure `value` is treated as AircraftData
   const aircraft = value as AircraftData;
 
   return (
-    <div className="relative flex flex-col  items-center w-screen h-[85vh] md:h-screen overflow-hidden">
-      <>
-        <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
-          <div
-            className={`cursor-pointer py-2 border-y  md:text-base text-sm border-r  border-l  rounded-l-lg px-5 md:px-11 transition-all ${
-              category === "Light"
-                ? "bg-blue-50 border-[#23B2EE] border-r text-black"
-                : "bg-white text-black border-r-transparent"
-            }`}
-            onClick={() => setCategory("Light")}
-          >
-            <h1>Light</h1>
-          </div>
-          <div
-            className={`cursor-pointer py-2 md:text-base text-sm px-5 md:px-11 border-y border-r rounded-r-lg  border-l  transition-all ${
-              category === "Turbo"
-                ? "bg-blue-50 border-[#23B2EE]  border-l-[#23B2EE] text-black"
-                : "bg-white text-black border-l-transparent "
-            }`}
-            onClick={() => setCategory("Turbo")}
-          >
-            <h1>Turbo</h1>
-          </div>
+    <div className="relative flex flex-col items-center w-screen h-[85vh] md:h-screen overflow-hidden bg-gradient-to-b from-[#011627] to-[#012a54]">
+      {/* Category Toggle Buttons */}
+      <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
+        <div
+          className={`cursor-pointer py-2 border-y border-r border-l rounded-l-lg px-5 md:px-11 transition-all ${
+            category === "Light"
+              ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
+              : "bg-[#1e293b] text-gray-300 border-transparent"
+          }`}
+          onClick={() => setCategory("Light")}
+        >
+          <h1>Light</h1>
         </div>
-      </>
+        <div
+          className={`cursor-pointer py-2 px-5 md:px-11 border-y border-l border-r rounded-r-lg transition-all ${
+            category === "Turbo"
+              ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
+              : "bg-[#1e293b] text-gray-300 border-transparent"
+          }`}
+          onClick={() => setCategory("Turbo")}
+        >
+          <h1>Turbo</h1>
+        </div>
+      </div>
 
-      <div className="pointer-events-none lg:-mt-1 mt-6 w-full h-[100vw] md:h-[40vw] text-black flex justify-center">
+      {/* Aircraft Info */}
+      <div className="pointer-events-none lg:-mt-1 mt-6 w-full h-[100vw] md:h-[40vw] flex justify-center text-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -122,13 +120,16 @@ export default function Slider3() {
               ).map((key) => (
                 <div
                   key={key}
-                  className="bg-gray-100 text-center py-2 md:py-3 rounded-lg"
-                  style={{ width: getDynamicWidth(key) }}
+                  className="text-center border border-[#23B2EE] py-2 md:py-3 rounded-lg"
+                  style={{
+                    width: getDynamicWidth(key),
+                    backgroundColor: "rgba(35, 178, 238, 0.1)",
+                  }}
                 >
-                  <h1 className="text-sm md:text-base">
+                  <h1 className="text-sm md:text-base text-white">
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </h1>
-                  <p className="text-[#23B2EE] px-2 md:px-3 font-semibold uppercase text-[11px] md:text-sm">
+                  <p className="text-[#23B2EE] px-2 md:px-3  font-semibold uppercase text-[11px] md:text-sm">
                     {aircraft[key]}
                   </p>
                 </div>
@@ -142,7 +143,8 @@ export default function Slider3() {
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-0 w-full h-full flex  items-end justify-center">
+      {/* Image Slider */}
+      <div className="absolute bottom-0 w-full h-full flex items-end justify-center">
         <AnimatePresence initial={false}>
           {getVisibleIndices().map((index, position) => {
             const isCenter = position === 1;
@@ -175,8 +177,9 @@ export default function Slider3() {
         </AnimatePresence>
       </div>
 
+      {/* Request Quote Button */}
       <div className="z-50 absolute flex gap-2 bottom-[4vw] md:bottom-[5vw] lg:bottom-[4vw] rounded-lg left-1/2 -translate-x-1/2">
-        <button className="text-sm md:text-base px-4 py-2 md:scale-100 scale-95 bg-[#23B2EE] text-white rounded hover:bg-blue-800">
+        <button className="text-sm cursor-pointer md:text-base px-6 py-2 md:scale-100 scale-95 bg-gradient-to-r from-[#23B2EE] to-[#1a96ca] text-white rounded-lg hover:from-[#1a96ca] hover:to-[#23B2EE] transition-all duration-300 shadow-lg shadow-[#23B2EE]/20">
           Request Quote
         </button>
       </div>
