@@ -10,6 +10,13 @@ const images: string[] = [
   "remove4.png",
 ];
 
+const colorGradients = [
+  "radial-gradient(50% 50% at 50% 50%, #D1E4F6 50%, #5F9CCF 100%)",
+  "radial-gradient(50% 50% at 50% 50%, #FBFBFB 50%, #6FE6FC 100%)",
+  "radial-gradient(50% 50% at 50% 50%, #e0e0e0 50%, #6FDCE3 100%)",
+  "radial-gradient(50% 50% at 50% 50%, #e6f2fe 50%, #23B2EE 100%)",
+];
+
 type AircraftData = {
   seats: string;
   altitude: string;
@@ -26,17 +33,25 @@ export default function Slider3() {
   >("LIGHT | MIDSIZE JETS");
   const [value, setValue] = useState<AircraftData | string>("TURBOPROPS");
 
-  const getVisibleIndices = (): number[] => {
-    const prev = (currentIndex - 1 + images.length) % images.length;
-    const next = (currentIndex + 1) % images.length;
-    return [prev, currentIndex, next];
+  const getVisibleIndices = (): { index: number; position: number }[] => {
+    const result = [{ index: currentIndex, position: 1 }]; // center image
+
+    if (currentIndex > 0) {
+      result.unshift({ index: currentIndex - 1, position: 0 }); // left image
+    }
+
+    if (currentIndex < images.length - 1) {
+      result.push({ index: currentIndex + 1, position: 2 }); // right image
+    }
+
+    return result;
   };
 
   const handleClick = (position: number): void => {
-    if (position === 0) {
-      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-    } else if (position === 2) {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
+    if (position === 0 && currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    } else if (position === 2 && currentIndex < images.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
@@ -79,7 +94,12 @@ export default function Slider3() {
   const aircraft = value as AircraftData;
 
   return (
-    <div className="relative flex flex-col items-center w-screen h-[85vh] md:h-screen overflow-hidden bg-gradient-to-b from-[#011627] to-[#012a54]">
+    <div
+      style={{
+        background: colorGradients[currentIndex],
+      }}
+      className="relative flex flex-col items-center w-screen h-[85vh] md:h-screen overflow-hidden bg-gradient-to-b from-[#011627] to-[#012a54]"
+    >
       {/* Category Toggle Buttons */}
       <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
         <div
@@ -152,7 +172,7 @@ export default function Slider3() {
       {/* Image Slider */}
       <div className="absolute bottom-0 w-full h-full flex items-end justify-center">
         <AnimatePresence initial={false}>
-          {getVisibleIndices().map((index, position) => {
+          {getVisibleIndices().map(({ index, position }) => {
             const isCenter = position === 1;
             const xPosition =
               position === 0 ? "-40vw" : position === 2 ? "40vw" : 0;
@@ -160,6 +180,7 @@ export default function Slider3() {
             const zIndex = isCenter ? 10 : 5;
             const opacity = isCenter ? 1 : 0.6;
             const yPosition = isCenter ? "-9vw" : "5vw";
+            const blur = isCenter ? "blur(0px)" : "blur(6px)";
 
             return (
               <motion.img
@@ -171,7 +192,12 @@ export default function Slider3() {
                     ? "pointer-events-none md:translate-y-0 -translate-y-6"
                     : "cursor-pointer"
                 }`}
-                style={{ zIndex, userSelect: "none" }}
+                style={{
+                  zIndex,
+                  userSelect: "none",
+                  filter: blur,
+                  transition: "filter 0.4s ease",
+                }}
                 initial={{ y: "100vh", opacity: 0, scale: 0.8, x: xPosition }}
                 animate={{ y: yPosition, x: xPosition, opacity, scale }}
                 exit={{ y: "100vh", opacity: 0, scale: 0.8 }}
