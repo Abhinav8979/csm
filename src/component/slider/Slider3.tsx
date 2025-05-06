@@ -11,10 +11,13 @@ const images: string[] = [
 ];
 
 const colorGradients = [
+  "radial-gradient(50% 50% at 50% 50%, #011627 50%, #012a54 100%)",
   "radial-gradient(50% 50% at 50% 50%, #D1E4F6 50%, #5F9CCF 100%)",
-  "radial-gradient(50% 50% at 50% 50%, #FBFBFB 50%, #6FE6FC 100%)",
+  // "radial-gradient(50% 50% at 50% 50%, #FBFBFB 50%, #6FE6FC 100%)",
+
   "radial-gradient(50% 50% at 50% 50%, #e0e0e0 50%, #6FDCE3 100%)",
-  "radial-gradient(50% 50% at 50% 50%, #e6f2fe 50%, #23B2EE 100%)",
+  // "radial-gradient(50% 50% at 50% 50%, #e6f2fe 50%, #23B2EE 100%)",
+  "radial-gradient(50% 50% at 50% 50%, #27548A 50%, #183B4E 100%)",
 ];
 
 type AircraftData = {
@@ -103,9 +106,14 @@ export default function Slider3() {
       {/* Category Toggle Buttons */}
       <div className="flex mt-3 z-20 md:my-6 overflow-hidden">
         <div
+          // className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-r border-l rounded-l-lg transition-all ${
+          //   category === "LIGHT | MIDSIZE JETS"
+          //     ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
+          //     : "bg-[#1e293b] text-gray-300 border-transparent"
+          // }`}
           className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-r border-l rounded-l-lg transition-all ${
             category === "LIGHT | MIDSIZE JETS"
-              ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
+              ? "bg-white text-black border-[#23B2EE]"
               : "bg-[#1e293b] text-gray-300 border-transparent"
           }`}
           onClick={() => setCategory("LIGHT | MIDSIZE JETS")}
@@ -115,7 +123,7 @@ export default function Slider3() {
         <div
           className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-l border-r rounded-r-lg transition-all ${
             category === "TURBOPROPS"
-              ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
+              ? "bg-white text-black border-[#23B2EE]"
               : "bg-[#1e293b] text-gray-300 border-transparent"
           }`}
           onClick={() => setCategory("TURBOPROPS")}
