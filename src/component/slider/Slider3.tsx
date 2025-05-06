@@ -20,6 +20,31 @@ const colorGradients = [
   "radial-gradient(50% 50% at 50% 50%, #27548A 50%, #183B4E 100%)",
 ];
 
+const switchColors = [
+  {
+    yes: "bg-black/50 text-white border-white",
+    no: "bg-transparent  text-gray-300 border-white/30",
+  },
+  {
+    yes: "bg-black/80 text-white border-white",
+    no: "bg-transparent  text-gray-300 border-white/30",
+  },
+  {
+    yes: "bg-black/80 text-white border-black",
+    no: "bg-transparent text-[#1a1a1a] border-[#1a1a1a]/30",
+  },
+  {
+    yes: "bg-black/50 text-white border-white",
+    no: "bg-transparent  text-gray-300 border-white/30",
+  },
+];
+const headingColors = [
+  "text-white",
+  "text-white",
+  "text-[#003344]",
+  "text-white",
+];
+
 type AircraftData = {
   seats: string;
   altitude: string;
@@ -111,20 +136,20 @@ export default function Slider3() {
           //     ? "bg-[#23B2EE]/60 text-white border-[#23B2EE]"
           //     : "bg-[#1e293b] text-gray-300 border-transparent"
           // }`}
-          className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-r border-l rounded-l-lg transition-all ${
+          className={`py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-r border-l rounded-l-lg transition-all ${
             category === "LIGHT | MIDSIZE JETS"
-              ? "bg-white text-black border-[#23B2EE]"
-              : "bg-[#1e293b] text-gray-300 border-transparent"
+              ? `${switchColors[currentIndex].yes} pointer-events-none`
+              : `${switchColors[currentIndex].no} cursor-pointer`
           }`}
           onClick={() => setCategory("LIGHT | MIDSIZE JETS")}
         >
           <h1>Light</h1>
         </div>
         <div
-          className={`cursor-pointer py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-l border-r rounded-r-lg transition-all ${
+          className={`py-1.5 px-3 text-sm md:py-2 md:px-11 md:text-base border-y border-l border-r rounded-r-lg transition-all ${
             category === "TURBOPROPS"
-              ? "bg-white text-black border-[#23B2EE]"
-              : "bg-[#1e293b] text-gray-300 border-transparent"
+              ? `${switchColors[currentIndex].yes} pointer-events-none`
+              : `${switchColors[currentIndex].no} cursor-pointer`
           }`}
           onClick={() => setCategory("TURBOPROPS")}
         >
@@ -160,7 +185,9 @@ export default function Slider3() {
                     backgroundColor: "rgba(35, 178, 238, 0.1)",
                   }}
                 >
-                  <h1 className="text-sm md:text-base text-white">
+                  <h1
+                    className={`text-sm md:text-base ${headingColors[currentIndex]}`}
+                  >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </h1>
                   <p className="text-[#23B2EE] px-2 md:px-3  font-semibold uppercase text-[11px] md:text-sm">
@@ -188,7 +215,6 @@ export default function Slider3() {
             const zIndex = isCenter ? 10 : 5;
             const opacity = isCenter ? 1 : 0.6;
             const yPosition = isCenter ? "-9vw" : "5vw";
-            const blur = isCenter ? "blur(0px)" : "blur(6px)";
 
             return (
               <motion.img
@@ -203,7 +229,6 @@ export default function Slider3() {
                 style={{
                   zIndex,
                   userSelect: "none",
-                  filter: blur,
                   transition: "filter 0.4s ease",
                 }}
                 initial={{ y: "100vh", opacity: 0, scale: 0.8, x: xPosition }}
